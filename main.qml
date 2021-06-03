@@ -316,20 +316,15 @@ Window {
                                         id: bottomPlaceHolderDropArea
 
                                         property bool sourceAndTargetColumnsDifferent: true
+                                        property int droppedColumnIndex
+                                        property int droppedTaskIndex
 
                                         anchors.fill: taskAndPlaceholderColumn
 
                                         keys: "task"
 
                                         onEntered: {
-                                            console.log("")
-                                            console.log("xxxx xxxxx")
-                                            console.log("current column: " + taskcolumnHeaderDragArea.taskColumnIndex)
-                                            console.log("current task index: " + taskcolumnHeaderDragArea.taskIndex)
-                                            console.log("source column: " + drag.source.taskColumnIndex)
-                                            console.log("source task index: " + drag.source.taskIndex)
-                                            console.log("xxxx xxxxx")
-                                            console.log("")
+
 
 
                                             if (taskcolumnHeaderDragArea.taskColumnIndex === drag.source.taskColumnIndex) {
@@ -340,6 +335,21 @@ Window {
                                                 sourceAndTargetColumnsDifferent = false
                                             } else {
                                                 sourceAndTargetColumnsDifferent = true
+
+
+                                                console.log("")
+                                                console.log("--- yyyy")
+                                                console.log("on entered source column: " + drag.source.taskColumnIndex)
+                                                console.log("on entered source task index: " + drag.source.taskIndex)
+                                                console.log("on entered current column: " + taskcolumnHeaderDragArea.taskColumnIndex)
+                                                console.log("on entered current task index: " + taskcolumnHeaderDragArea.taskIndex)
+                                                console.log("--- yyyy")
+                                                console.log("")
+                                                droppedColumnIndex = taskcolumnHeaderDragArea.taskColumnIndex
+                                                droppedTaskIndex = taskcolumnHeaderDragArea.taskIndex
+
+
+
                                             }
                                         }
 
@@ -351,35 +361,55 @@ Window {
 
                                         onDropped: {
 
-                                            console.log("visual model")
-                                            var tmpData = visualModel.model
-                                            console.log(JSON.stringify(visualModel.model))
-
-                                            console.log("JSON.stringify(tmpData[drag.source.taskColumnIndex]")
-                                            console.log(JSON.stringify(tmpData[drag.source.taskColumnIndex]))
-
-                                            console.log("JSON.stringify(tmpData[drag.source.taskColumnIndex].tasks[drag.source.taskIndex]")
-                                            console.log(JSON.stringify(tmpData[drag.source.taskColumnIndex].tasks[drag.source.taskIndex]))
-
-
-                                            tmpData[taskColumnIndex].tasks.splice(taskcolumnHeaderDragArea.taskIndex, 0,tmpData[drag.source.taskColumnIndex].tasks[drag.source.taskIndex])
-                                            console.log("taskcolumnHeaderDragArea.taskIndex+1: ")
-                                            console.log(taskcolumnHeaderDragArea.taskIndex+1)
+                                            console.log("")
+                                            console.log("--- xxxxx")
+                                            console.log("on dropped source column: " + drag.source.taskColumnIndex)
+                                            console.log("on dropped source task index: " + drag.source.taskIndex)
+//                                            console.log("on dropped current column: " + taskcolumnHeaderDragArea.taskColumnIndex)
+//                                            console.log("on dropped current task index: " + taskcolumnHeaderDragArea.taskIndex)
+                                            console.log("on dropped current column: " + droppedColumnIndex)
+                                            console.log("on dropped current task index: " + droppedTaskIndex)
 
 
-                                            console.log("insert: ")
-                                            console.log(JSON.stringify(tmpData[drag.source.taskColumnIndex].tasks[drag.source.taskIndex]))
 
 
-                                            console.log(JSON.stringify(visualModel.model))
+                                            console.log("--- xxxxx")
+                                            console.log("")
+
+                                            //if (1) //taskcolumnHeaderDragArea.taskColumnIndex !== drag.source.taskColumnIndex) {
 
 
-                                            //tmpData[drag.source.taskColumnIndex].tasks.splice(drag.source.taskIndex, 1)
-                                            visualModel.model = tmpData
+                                                console.log("visual model")
+                                                var tmpData = visualModel.model
+                                                console.log(JSON.stringify(visualModel.model))
 
-                                            console.log("xxx xxxx")
-                                            console.log("xxx xxxx")
-                                            console.log(JSON.stringify(tmpData))
+                                                console.log("JSON.stringify(tmpData[drag.source.taskColumnIndex]")
+                                                console.log(JSON.stringify(tmpData[drag.source.taskColumnIndex]))
+
+                                                console.log("JSON.stringify(tmpData[drag.source.taskColumnIndex].tasks[drag.source.taskIndex]")
+                                                console.log(JSON.stringify(tmpData[drag.source.taskColumnIndex].tasks[drag.source.taskIndex]))
+
+
+                                                tmpData[taskcolumnHeaderDragArea.taskColumnIndex].tasks.splice(1 + taskcolumnHeaderDragArea.taskIndex, 0,tmpData[drag.source.taskColumnIndex].tasks[drag.source.taskIndex])
+                                                console.log("taskcolumnHeaderDragArea.taskIndex+1: ")
+                                                console.log(taskcolumnHeaderDragArea.taskIndex+1)
+
+
+                                                console.log("insert: ")
+                                                console.log(JSON.stringify(tmpData[drag.source.taskColumnIndex].tasks[drag.source.taskIndex]))
+
+
+                                                console.log(JSON.stringify(visualModel.model))
+
+
+                                                //tmpData[drag.source.taskColumnIndex].tasks.splice(drag.source.taskIndex, 1)
+                                                visualModel.model = tmpData
+
+                                                console.log("xxx xxxx")
+                                                console.log("xxx xxxx")
+                                                console.log(JSON.stringify(tmpData))
+
+                                           // }
                                         }
                                     }
                                 }
@@ -393,7 +423,6 @@ Window {
         DelegateModel {
             id: visualModel
 
-         //   model: TasksModel {}
             delegate: columnDelegate
         }
 
